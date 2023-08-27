@@ -31,7 +31,7 @@ void updateEncoder() {
   if (abs(newPosition2 - oldPosition2) >= encoderStepsMenu) {
     change = (newPosition2 - oldPosition2) / encoderStepsMenu;
     oldPosition2 = newPosition2;
-    if (0 <= menu && menu <= 4) {
+    if (menu && menu <= 4) {
       *(values[menu]) = (*(values[menu]) + change) % (rows * cols);
     } else if (menu == 5) {
       *(values[menu]) = (*(values[menu]) + change) % 4;
@@ -46,43 +46,27 @@ void updateEncoder() {
 
 void displayMenu() {
   oled.clear();
-  if (menu == 0) {
-    oled.println("Start");
-    oled.print(delineariseRow(*(values[menu])));
-    oled.print(", ");
-    oled.println(delineariseCol(*(values[menu])));
-  } else if (menu == 1) {
-    oled.println("End 1");
-    oled.print(delineariseRow(*(values[menu])));
-    oled.print(", ");
-    oled.println(delineariseCol(*(values[menu])));
-  } else if (menu == 2) {
-    oled.println("End 2");
-    oled.print(delineariseRow(*(values[menu])));
-    oled.print(", ");
-    oled.println(delineariseCol(*(values[menu])));
-  } else if (menu == 3) {
-    oled.println("End 3");
-    oled.print(delineariseRow(*(values[menu])));
-    oled.print(", ");
-    oled.println(delineariseCol(*(values[menu])));
-  } else if (menu == 4) {
-    oled.println("End 4");
-    oled.print(delineariseRow(*(values[menu])));
-    oled.print(", ");
-    oled.println(delineariseCol(*(values[menu])));
+
+  char menuTitle[6];
+  char menuValue[7];
+  const char directions[4][6] = { "North", "South", "East", "West" };
+
+  if (menu <= 4) {
+    if (menu == 0) sprintf(menuTitle, "Start");
+    else sprintf(menuTitle, "End %u", menu);
+    sprintf(menuValue, "%u, %u", delineariseRow(*(values[menu])), delineariseCol(*(values[menu])));
+    oled.println(menuTitle);
+    oled.println(menuValue);
   } else if (menu == 5) {
     oled.println("Direction");
-    oled.println((*(values[menu]) == north) ? "North" : (*(values[menu]) == east)  ? "East"
-                                                      : (*(values[menu]) == south) ? "South"
-                                                                                   : "West");
+    oled.println(directions[(*(values[menu]))]);
   } else if (menu == 6) {
     oled.println("Reset Maze");
     oled.println((*(values[menu])) ? "Yes" : "No");
   }
 }
 
-void printAndWait(const char *text, uint16_t time, bool waitButton = true) {
+void printAndWait(const char *text, uint16_t time, bool waitButton) {
   oled.clear();
   oled.println(text);
   if (waitButton) while (digitalRead(button));
