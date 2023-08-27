@@ -4,6 +4,13 @@
 #include "src/CircularBufferQueue/CircularBufferQueue.h"
 CircularBufferQueue floodQueue(512);  // This queue stores the cells that need to be flooded
 
+static bool isNeighbourValid(uint8_t location, uint8_t direction);
+static uint8_t getTargetAbsoluteDirection(uint8_t target);
+static uint8_t getTargetRelativeDirection(uint8_t target);
+static bool isDestination(uint8_t location);
+static bool isEnclosed(uint8_t location);
+static bool isTunnel(uint8_t location);
+
 uint8_t currentCell, targetCell;
 uint8_t leftDir, currentDir, rightDir, nextLeftDir, nextDir, nextRightDir;
 
@@ -110,14 +117,14 @@ void updateWalls() {
   }
 }
 
-bool isNeighbourValid(uint8_t location, uint8_t direction) {
+static bool isNeighbourValid(uint8_t location, uint8_t direction) {
   if (direction == north) return delineariseRow(location) > 0;
   else if (direction == east) return delineariseCol(location) < (cols - 1);
   else if (direction == south) return delineariseRow(location) < (rows - 1);
   else if (direction == west) return delineariseCol(location) > 0;
 }
 
-uint8_t getTargetAbsoluteDirection(uint8_t target) {
+static uint8_t getTargetAbsoluteDirection(uint8_t target) {
   short diff = (short)target - (short)currentCell;
   if (diff == -rows) return north;
   if (diff == 1) return east;
@@ -125,20 +132,20 @@ uint8_t getTargetAbsoluteDirection(uint8_t target) {
   if (diff == -1) return west;
 }
 
-uint8_t getTargetRelativeDirection(uint8_t target) {
+static uint8_t getTargetRelativeDirection(uint8_t target) {
   return (getTargetAbsoluteDirection(target) + 4 - currentDir) % 4;
 }
 
-bool isDestination(uint8_t location) {
+static bool isDestination(uint8_t location) {
   return floodArray[location].flood == 0;
 }
 
-bool isEnclosed(uint8_t location) {
+static bool isEnclosed(uint8_t location) {
   // 15 is 00001111 in binary, which means that there are walls in 4 all 4 directions of the cell
   return floodArray[location].neighbours == 15;
 }
 
-bool isTunnel(uint8_t location) {
+static bool isTunnel(uint8_t location) {
   return (!wallExists(location, nextDir)) && wallExists(location, nextLeftDir) && wallExists(location, nextRightDir) && floodArray[location].visited;
 }
 

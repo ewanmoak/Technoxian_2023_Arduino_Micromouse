@@ -31,12 +31,6 @@ void flood(void);
 void updateTargetCell(void);
 void goToTargetCell(void);
 void updateWalls(void);
-bool isNeighbourValid(uint8_t location, uint8_t direction);
-uint8_t getTargetAbsoluteDirection(uint8_t target);
-uint8_t getTargetRelativeDirection(uint8_t target);
-bool isDestination(uint8_t location);
-bool isEnclosed(uint8_t location);
-bool isTunnel(uint8_t location);
 void initialise(void);
 
 #endif
