@@ -19,6 +19,8 @@
 
 #define sensor_On_Pin 17
 
+#define button 11
+
 struct cell {
   uint8_t flood;
   uint8_t neighbours;
@@ -29,25 +31,13 @@ extern struct cell floodArray[];
 
 extern const uint8_t rows, cols;
 
-extern uint8_t startCell, currentCell, targetCell;
-extern uint8_t startDir, leftDir, currentDir, rightDir, nextLeftDir, nextDir, nextRightDir;
-extern uint8_t targetCells[];
-
-extern short cellDirectionAddition[];
-extern uint8_t targetScoreFromDirection[];
-
-extern uint8_t readingCellLoc, readingCellDistance, readingCellScore, minNeighbourDistance, targetRelativeDirection, targetScore;
-extern uint8_t distanceFromTarget;
-
-extern uint8_t resetMazeEEPROM;
+extern uint8_t startCell, startDir, targetCells[], currentCell;
 
 extern uint8_t *values[];
 
 extern int sensorValue[];
 
 extern long newPosition1, newPosition2, oldPosition1, oldPosition2;
-extern uint8_t menu;
-extern short change;
 
 extern Encoder myEnc1;
 extern Encoder myEnc2;

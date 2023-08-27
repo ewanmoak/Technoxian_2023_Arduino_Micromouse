@@ -1,10 +1,14 @@
 #include "globals.h"
 #include "menu.h"
 
-SSD1306AsciiAvrI2c oled;
-
 #define delineariseRow(location) (location / cols)
 #define delineariseCol(location) (location % cols)
+
+uint8_t menu = 0;  // This determines which value the encoder updates
+short change;
+uint8_t* values[7] = { &startCell, &(targetCells[0]), &(targetCells[1]), &(targetCells[2]), &(targetCells[3]), &startDir, &resetMazeEEPROM };
+
+uint8_t resetMazeEEPROM = 0;  // This determines whether or not the maze data stored in the EEPROM should be reset
 
 void oledSetup() {
   oled.begin(&Adafruit128x32, I2C_ADDRESS);
@@ -76,4 +80,11 @@ void displayMenu() {
     oled.println("Reset Maze");
     oled.println((*(values[menu])) ? "Yes" : "No");
   }
+}
+
+void printAndWait(char *text, uint16_t time, bool waitButton = true) {
+  oled.clear();
+  oled.println(text);
+  if (waitButton) while (digitalRead(button));
+  delay(time);
 }

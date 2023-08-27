@@ -4,6 +4,15 @@
 #include "src/CircularBufferQueue/CircularBufferQueue.h"
 CircularBufferQueue floodQueue(512);  // This queue stores the cells that need to be flooded
 
+uint8_t currentCell, targetCell;
+uint8_t leftDir, currentDir, rightDir, nextLeftDir, nextDir, nextRightDir;
+
+uint8_t readingCellLoc, readingCellDistance, readingCellScore, minNeighbourDistance, targetRelativeDirection, targetScore;
+uint8_t distanceFromTarget = 1;
+
+short cellDirectionAddition[4] = { -rows, 1, rows, -1 };  // The location of a neighbouring cell can be obtained using the values in this dictionary
+uint8_t targetScoreFromDirection[4] = { 0, 1, 2, 1 };
+
 void flood() {
   floodQueue.enqueue(currentCell);
   while (!floodQueue.isEmpty()) {
@@ -74,6 +83,8 @@ void goToTargetCell() {
   updateDirection(&leftDir, targetRelativeDirection);
   updateDirection(&currentDir, targetRelativeDirection);
   updateDirection(&rightDir, targetRelativeDirection);
+  
+  currentCell = targetCell;
 }
 
 void updateWalls() {
@@ -131,7 +142,8 @@ bool isTunnel(uint8_t location) {
   return (!wallExists(location, nextDir)) && wallExists(location, nextLeftDir) && wallExists(location, nextRightDir) && floodArray[location].visited;
 }
 
-void initialiseDirections() {
+void initialise() {
+  currentCell = startCell;
   currentDir = startDir;
   leftDir = (currentDir + 3) % 4;
   rightDir = (currentDir + 1) % 4;
