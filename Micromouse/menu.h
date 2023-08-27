@@ -14,6 +14,6 @@ extern uint8_t resetMazeEEPROM;
 void oledSetup(void);
 void updateEncoder(void);
 void displayMenu(void);
-void printAndWait(char *text, uint16_t time, bool waitButton = true);
+void printAndWait(const char *text, uint16_t time, bool waitButton = true);
 
 #endif

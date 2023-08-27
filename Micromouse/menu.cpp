@@ -82,7 +82,7 @@ void displayMenu() {
   }
 }
 
-void printAndWait(char *text, uint16_t time, bool waitButton = true) {
+void printAndWait(const char *text, uint16_t time, bool waitButton = true) {
   oled.clear();
   oled.println(text);
   if (waitButton) while (digitalRead(button));
