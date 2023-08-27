@@ -2,6 +2,7 @@
 #define globals_h
 
 #include <stdint.h>
+#include <Encoder.h>
 
 #define north 0
 #define east 1
@@ -43,5 +44,12 @@ extern uint8_t resetMazeEEPROM;
 extern uint8_t *values[];
 
 extern int sensorValue[];
+
+extern long newPosition1, newPosition2, oldPosition1, oldPosition2;
+extern uint8_t menu;
+extern short change;
+
+extern Encoder myEnc1;
+extern Encoder myEnc2;
 
 #endif
