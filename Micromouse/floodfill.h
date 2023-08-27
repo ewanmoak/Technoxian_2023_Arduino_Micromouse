@@ -17,7 +17,7 @@ void readWall();
 // Wall macros
 #define distance(loc1, loc2) (absolute(delineariseRow(loc1) - delineariseRow(loc2)) + absolute(delineariseCol(loc1) - delineariseCol(loc2)))
 #define markWall(location, direction) (floodArray[location].neighbours |= 1 << direction)
-#define wallExists(location, direction) (floodArray[location].neighbours & ~(1 << direction))
+#define wallExists(location, direction) (floodArray[location].neighbours & (1 << direction))
 
 // Neighbour macros
 #define getNeighbourLocation(location, direction) ((uint8_t)((short)location + cellDirectionAddition[direction]))  // Calculates the location of neighbour
