@@ -1,7 +1,7 @@
 #ifndef menu_h
 #define menu_h
 
-#define encoderStepsMenu 30
+#define encoderStepsMenu 4
 #define I2C_ADDRESS 0x3C
 
 #include <SSD1306Ascii.h>

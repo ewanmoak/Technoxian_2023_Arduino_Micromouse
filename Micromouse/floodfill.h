@@ -1,9 +1,6 @@
 #ifndef floodfill_h
 #define floodfill_h
 
-#define absolute(number) (((number) > 0)? (number) : (-(number)))
-#define minimum(num1, num2) (((num1) < (num2))? (num1) : (num2))
-
 void turn(int angle, int speed);
 void alignFront();
 void moveForward(long blocks, int speed);

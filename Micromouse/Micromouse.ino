@@ -41,22 +41,23 @@ void setup() {
 
   oledSetup();
   updateMazeValuesFromEEPROM();
-  printAndWait("Configure", 1000);
+  printAndWait("Configure", 500);
   newPosition1 = myEnc1.read(), newPosition2 = myEnc2.read(), oldPosition1 = myEnc1.read(), oldPosition2 = myEnc2.read();
   displayMenu();
-  while (digitalRead(11)) updateEncoder();
+  while (digitalRead(button)) updateEncoder();
   printAndWait("Saving", 0, false);
   if (resetMazeEEPROM) resetMazeValuesInEEPROM();
   else updateMazeValuesInEEPROM();
   resetEnc();
-  printAndWait("Callibrate", 1000);
+  printAndWait("Callibrate", 500);
+  printAndWait("Callibrating", 0, false);
   calibrate();
 }
 
 void loop() {
   initialise();
-  printAndWait("Start", 10);
-  printAndWait("Running", 1000, false);
+  printAndWait("Start", 100);
+  printAndWait("Running", 500, false);
   
   while (currentCell != targetCells[0] && currentCell != targetCells[1] && currentCell != targetCells[2] && currentCell != targetCells[3]) {
     updateWalls();

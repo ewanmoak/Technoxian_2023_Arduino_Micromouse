@@ -31,10 +31,12 @@ void updateEncoder() {
   if (abs(newPosition2 - oldPosition2) >= encoderStepsMenu) {
     change = (newPosition2 - oldPosition2) / encoderStepsMenu;
     oldPosition2 = newPosition2;
-    if (menu && menu <= 4) {
-      *(values[menu]) = (*(values[menu]) + change) % (rows * cols);
+    if (menu <= 4) {
+      if (change < 0 && *(values[menu]) < absolute(change)) *(values[menu]) = (rows * cols) - 1;
+      else *(values[menu]) = (*(values[menu]) + change) % (rows * cols);
     } else if (menu == 5) {
-      *(values[menu]) = (*(values[menu]) + change) % 4;
+      if (change < 0 && *(values[menu]) < absolute(change)) *(values[menu]) = 3;
+      else *(values[menu]) = (*(values[menu]) + change) % 4;
     } else if (menu == 6) {
       *(values[menu]) = (*(values[menu]) + change);
       if(*(values[menu]) > 200) *(values[menu]) = 0;
@@ -49,7 +51,7 @@ void displayMenu() {
 
   char menuTitle[6];
   char menuValue[7];
-  const char directions[4][6] = { "North", "South", "East", "West" };
+  const char directions[4][6] = { "North", "East", "South", "West" };
 
   if (menu <= 4) {
     if (menu == 0) sprintf(menuTitle, "Start");

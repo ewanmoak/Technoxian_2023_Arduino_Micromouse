@@ -19,7 +19,10 @@
 
 #define sensor_On_Pin 17
 
-#define button 11
+#define button 9
+
+#define absolute(number) (((number) > 0)? (number) : (-(number)))
+#define minimum(num1, num2) (((num1) < (num2))? (num1) : (num2))
 
 struct cell {
   uint8_t flood;
